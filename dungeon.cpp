@@ -8,6 +8,10 @@ struct loc {
     int x, y, z;
 };
 
+vector<vector<int>> movements = {
+  {1, 0, 0}, {-1, 0, 0}, {0, 1, 0}, {0, -1, 0}, {0, 0, 1}, {0, 0, -1}
+};
+
 bool inrange(int a, int b, int c) {
     return (a >= 0 && b >= 0 && b >= 0 && a < x && b < y && c < z);
 }
@@ -60,29 +64,15 @@ int main() {
             q.pop();
 
             // Try 6 positions
-            if(inrange(c.x-1,c.y,c.z) && v[c.x-1][c.y][c.z] == -2) {
-                v[c.x-1][c.y][c.z] = v[c.x][c.y][c.z] + 1;
-                q.push({c.x-1,c.y,c.z});
-            }
-            if(inrange(c.x+1,c.y,c.z) && v[c.x+1][c.y][c.z] == -2) {
-                v[c.x+1][c.y][c.z] = v[c.x][c.y][c.z] + 1;
-                q.push({c.x+1,c.y,c.z});
-            }
-            if(inrange(c.x,c.y-1,c.z) && v[c.x][c.y-1][c.z] == -2) {
-                v[c.x][c.y-1][c.z] = v[c.x][c.y][c.z] + 1;
-                q.push({c.x,c.y-1,c.z});
-            }
-            if(inrange(c.x,c.y+1,c.z) && v[c.x][c.y+1][c.z] == -2) {
-                v[c.x][c.y+1][c.z] = v[c.x][c.y][c.z] + 1;
-                q.push({c.x,c.y+1,c.z});
-            }
-            if(inrange(c.x,c.y,c.z-1) && v[c.x][c.y][c.z-1] == -2) {
-                v[c.x][c.y][c.z-1] = v[c.x][c.y][c.z] + 1;
-                q.push({c.x,c.y,c.z-1});
-            }
-            if(inrange(c.x,c.y,c.z+1) && v[c.x][c.y][c.z+1] == -2) {
-                v[c.x][c.y][c.z+1] = v[c.x][c.y][c.z] + 1;
-                q.push({c.x,c.y,c.z+1});
+            for(auto moves : movements){
+                int move_x = c.x + moves[0];
+                int move_y = c.y + moves[1];
+                int move_z = c.z + moves[2];
+
+                if(inrange(move_x, move_y, move_z) and v[move_x][move_y][move_z] == -2){
+                    v[move_x][move_y][move_z] = v[c.x][c.y][c.z] + 1;
+                    q.push({move_x, move_y, move_z});
+                }
             }
         }
 
